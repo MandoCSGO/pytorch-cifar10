@@ -166,9 +166,9 @@ def get_network(args):
 def get_training_dataloader(mean, std, batch_size=16, num_workers=2, shuffle=True):
     """ return training dataloader
     Args:
-        mean: mean of cifar100 training dataset
-        std: std of cifar100 training dataset
-        path: path to cifar100 training python dataset
+        mean: mean of cifar10 training dataset
+        std: std of cifar10 training dataset
+        path: path to cifar10 training python dataset
         batch_size: dataloader batchsize
         num_workers: dataloader num_works
         shuffle: whether to shuffle
@@ -183,49 +183,49 @@ def get_training_dataloader(mean, std, batch_size=16, num_workers=2, shuffle=Tru
         transforms.ToTensor(),
         transforms.Normalize(mean, std)
     ])
-    #cifar100_training = CIFAR100Train(path, transform=transform_train)
-    cifar100_training = torchvision.datasets.CIFAR100(root='./data', train=True, download=True, transform=transform_train)
-    cifar100_training_loader = DataLoader(
-        cifar100_training, shuffle=shuffle, num_workers=num_workers, batch_size=batch_size)
+    #cifar10_training = CIFAR10Train(path, transform=transform_train)
+    cifar10_training = torchvision.datasets.CIFAR10(root='./data', train=True, download=True, transform=transform_train)
+    cifar10_training_loader = DataLoader(
+        cifar10_training, shuffle=shuffle, num_workers=num_workers, batch_size=batch_size)
 
-    return cifar100_training_loader
+    return cifar10_training_loader
 
 def get_test_dataloader(mean, std, batch_size=16, num_workers=2, shuffle=True):
     """ return training dataloader
     Args:
-        mean: mean of cifar100 test dataset
-        std: std of cifar100 test dataset
-        path: path to cifar100 test python dataset
+        mean: mean of cifar10 test dataset
+        std: std of cifar10 test dataset
+        path: path to cifar10 test python dataset
         batch_size: dataloader batchsize
         num_workers: dataloader num_works
         shuffle: whether to shuffle
-    Returns: cifar100_test_loader:torch dataloader object
+    Returns: cifar10_test_loader:torch dataloader object
     """
 
     transform_test = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize(mean, std)
     ])
-    #cifar100_test = CIFAR100Test(path, transform=transform_test)
-    cifar100_test = torchvision.datasets.CIFAR100(root='./data', train=False, download=True, transform=transform_test)
-    cifar100_test_loader = DataLoader(
-        cifar100_test, shuffle=shuffle, num_workers=num_workers, batch_size=batch_size)
+    #cifar10_test = CIFAR10Test(path, transform=transform_test)
+    cifar10_test = torchvision.datasets.CIFAR10(root='./data', train=False, download=True, transform=transform_test)
+    cifar10_test_loader = DataLoader(
+        cifar10_test, shuffle=shuffle, num_workers=num_workers, batch_size=batch_size)
 
-    return cifar100_test_loader
+    return cifar10_test_loader
 
-def compute_mean_std(cifar100_dataset):
-    """compute the mean and std of cifar100 dataset
+def compute_mean_std(cifar10_dataset):
+    """compute the mean and std of cifar10 dataset
     Args:
-        cifar100_training_dataset or cifar100_test_dataset
+        cifar10_training_dataset or cifar10_test_dataset
         witch derived from class torch.utils.data
 
     Returns:
         a tuple contains mean, std value of entire dataset
     """
 
-    data_r = numpy.dstack([cifar100_dataset[i][1][:, :, 0] for i in range(len(cifar100_dataset))])
-    data_g = numpy.dstack([cifar100_dataset[i][1][:, :, 1] for i in range(len(cifar100_dataset))])
-    data_b = numpy.dstack([cifar100_dataset[i][1][:, :, 2] for i in range(len(cifar100_dataset))])
+    data_r = numpy.dstack([cifar10_dataset[i][1][:, :, 0] for i in range(len(cifar10_dataset))])
+    data_g = numpy.dstack([cifar10_dataset[i][1][:, :, 1] for i in range(len(cifar10_dataset))])
+    data_b = numpy.dstack([cifar10_dataset[i][1][:, :, 2] for i in range(len(cifar10_dataset))])
     mean = numpy.mean(data_r), numpy.mean(data_g), numpy.mean(data_b)
     std = numpy.std(data_r), numpy.std(data_g), numpy.std(data_b)
 
